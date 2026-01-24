@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Djoulah | ASI Core</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-color: #0b0e14; --card-bg: #151921; --primary-blue: #00dfd8; --text-color: #e0e6ed; }
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; }
+        
+        /* شريط الهوية الجديد */
+        .brand-header { background: #1a2a6c; padding: 5px; text-align: center; font-size: 0.7rem; color: var(--primary-blue); border-bottom: 1px solid var(--primary-blue); }
+        
+        .nav { background: #151921; padding: 15px; display: flex; justify-content: space-around; border-bottom: 1px solid #2d333f; }
+        .nav a { color: white; text-decoration: none; font-weight: bold; }
+        .active { color: var(--primary-blue) !important; }
+        
+        .container { max-width: 600px; margin: 20px auto; padding: 20px; }
+        .dashboard-card { background: var(--card-bg); border-radius: 20px; padding: 30px; border: 1px solid #2d333f; text-align: center; }
+        input { width: 100%; padding: 12px; background: #1c222d; border: 1px solid #2d333f; border-radius: 10px; color: white; margin-bottom: 10px; box-sizing: border-box; outline: none; }
+        .btn-analyze { background: var(--primary-blue); color: #1a2a6c; border: none; width: 100%; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; }
+        .scale-area { background: #1c222d; border-radius: 15px; padding: 20px; margin: 20px 0; border: 1px solid #2d333f; }
+        .progress-bar { height: 12px; background: #2d333f; border-radius: 10px; overflow: hidden; margin: 15px 0; }
+        .progress-fill { height: 100%; background: var(--primary-blue); width: 0%; transition: width 1s ease; box-shadow: 0 0 10px var(--primary-blue); }
+        .history-item { font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 5px; margin-bottom: 5px; display: flex; justify-content: space-between; border-right: 2px solid var(--primary-blue); }
+    </style>
+</head>
+<body>
+
+    <div class="brand-header">Djamel Djoulah ASI | SYSTEM DJOULAH</div>
+
+    <nav class="nav">
+        <a href="index.html">الرئيسية</a>
+        <a href="core.html" class="active">نظام Core</a>
+        <a href="about.html">المطور</a>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-card">
+            <h1 style="color: var(--primary-blue); margin-bottom: 5px;">SYSTEM DJOULAH</h1>
+            <p style="font-size: 0.8rem; margin-top: 0; color: #8892b0;">محرك الميزان الاحتمالي ASI</p>
+            
+            <input type="text" id="userInput" placeholder="أدخل البيانات للتحليل...">
+            <button class="btn-analyze" onclick="startAnalysis()">تحليل الميزان</button>
+
+            <div class="scale-area">
+                <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                    <span>مؤشر ASI:</span>
+                    <span id="percentText">0%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="bar"></div></div>
+                <div id="statusResult" style="font-size: 0.9rem;">جاهز للعمل</div>
+            </div>
+
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+    <script>
+        let historyData = [];
+        function startAnalysis() {
+            const input = document.getElementById('userInput').value;
+            const bar = document.getElementById('bar');
+            const percentText = document.getElementById('percentText');
+            const statusResult = document.getElementById('statusResult');
+            const historyList = document.getElementById('historyList');
+
+            if (!input) return;
+
+            statusResult.innerText = "جاري معالجة نظام ASI...";
+            
+            setTimeout(() => {
+                let weight = Math.floor(Math.random() * 101);
+                bar.style.width = weight + "%";
+                percentText.innerText = weight + "%";
+                statusResult.innerText = "اكتمل تحليل System Djoulah";
+
+                historyData.unshift({word: input, val: weight});
+                if(historyData.length > 3) historyData.pop();
+
+                historyList.innerHTML = historyData.map(item => `
+                    <div class="history-item">
+                        <span>${item.word}</span>
+                        <span>${item.val}%</span>
+                    </div>
+                `).join('');
+            }, 800);
+        }
+    </script>
+</body>
+</html>
+
+
+
+

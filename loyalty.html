@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محراب الوفاء والسيادة | Djamel Djoulah ASI</title>
+    <style>
+        :root { --gold: #d4af37; --neon-green: #39ff14; --bg: #0b0e14; }
+        body { background-color: var(--bg); color: white; font-family: sans-serif; text-align: center; margin: 0; }
+        
+        /* أزرار التنقل العلوية - تم تفعيل الروابط */
+        .nav-header { background: #151921; padding: 20px 10px; display: flex; justify-content: center; gap: 15px; border-bottom: 2px solid #1a2a6c; }
+        .nav-btn { color: white; text-decoration: none; padding: 8px 20px; border: 1px solid var(--gold); border-radius: 5px; font-weight: bold; font-size: 14px; }
+        .nav-btn.active { background: var(--gold); color: black; }
+
+        /* المسبحة الأفقية العكسية (الله يمين - العداد يسار) */
+        .tasbih-container { 
+            background: linear-gradient(to bottom, #1a2a6c, #0b0e14); 
+            padding: 40px 10px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 25px; 
+            border-bottom: 3px solid var(--neon-green);
+        }
+        .allah-text { font-size: 4.5rem; color: var(--neon-green); text-shadow: 0 0 25px var(--neon-green); cursor: pointer; user-select: none; }
+        .counter-circle { font-size: 3rem; border: 3px solid var(--neon-green); width: 90px; height: 90px; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: white; }
+
+        /* محرك البحث المطور مع زر */
+        .search-area { margin: 25px auto; max-width: 90%; }
+        .search-input-group { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; }
+        .search-area input { width: 70%; padding: 12px; border-radius: 25px; border: 1px solid var(--gold); background: #000; color: white; text-align: center; }
+        .btn-search { background: var(--gold); color: black; border: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
+        .engine-btns { display: flex; justify-content: center; gap: 10px; }
+        .engine-btns button { background: #1a1f29; color: #00dfd8; border: 1px solid #00dfd8; padding: 6px 15px; border-radius: 5px; cursor: pointer; font-size: 12px; }
+
+        .ward-container { margin: 25px; border: 1px dashed var(--gold); padding: 20px; color: var(--gold); font-size: 1.3rem; }
+
+        /* الشبكة التفاعلية */
+        .grid-family { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 40px; }
+        .family-card { background: #1a1f29; border: 2px solid var(--gold); border-radius: 15px; padding: 30px 10px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+        
+        #commentBox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
+        .box-content { background: #111; padding: 25px; border: 2px solid var(--gold); border-radius: 20px; width: 85%; }
+    </style>
+</head>
+<body>
+
+    <div class="nav-header">
+        <a href="index.html" class="nav-btn">الرئيسية</a>
+        <a href="loyalty.html" class="nav-btn active">محراب الوفاء</a>
+    </div>
+
+    <div class="tasbih-container">
+        <div class="allah-text" onclick="let n=document.getElementById('num'); n.innerText = parseInt(n.innerText)+1;">الله</div>
+        <div class="counter-circle" id="num">0</div>
+    </div>
+    <p style="color: var(--neon-green); font-size: 12px; margin-top: 10px;">إلمس كلمة الله للتسبيح (صدقة جارية)</p>
+
+    <div class="search-area">
+        <div class="search-input-group">
+            <input type="text" id="userInput" placeholder="ابحث في الويب...">
+            <button class="btn-search" onclick="window.open('https://www.google.com/search?q=' + document.getElementById('userInput').value)">بحث</button>
+        </div>
+        <div class="engine-btns">
+            <button onclick="window.open('https://www.bing.com/search?q=' + document.getElementById('userInput').value)">Bing</button>
+            <button onclick="window.open('https://www.google.com/search?q=' + document.getElementById('userInput').value)">Google</button>
+        </div>
+    </div>
+
+    <div class="ward-container">"وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"</div>
+
+    <div class="grid-family">
+        <div class="family-card" onclick="showPopup('الوالد')">الوالد</div>
+        <div class="family-card" onclick="showPopup('الجد')">الجد</div>
+        <div class="family-card" onclick="showPopup('الوالدة')">الوالدة</div>
+        <div class="family-card" onclick="showPopup('الأهل')">الأهل</div>
+    </div>
+
+    <div id="commentBox">
+        <div class="box-content">
+            <h3 id="targetName" style="color: var(--gold);"></h3>
+            <textarea id="txt" style="width:100%; height:100px; background:#000; color:white; border:1px solid #444; border-radius:10px; padding:10px;"></textarea><br>
+            <button onclick="alert('تم الحفظ في سجل الوفاء'); document.getElementById('commentBox').style.display='none'" style="margin-top:15px; padding:12px 30px; background:var(--gold); border:none; border-radius:10px; font-weight:bold;">إرسال وإغلاق</button>
+        </div>
+    </div>
+
+    <script>
+        function showPopup(name) {
+            document.getElementById('targetName').innerText = "سجل الترحم لـ: " + name;
+            document.getElementById('commentBox').style.display = 'flex';
+        }
+    </script>
+
+    <footer style="padding: 20px; opacity: 0.4; font-size: 11px;">
+        Djamel Djoulah ASI | 2026
+    </footer>
+
+</body>
+</html>
