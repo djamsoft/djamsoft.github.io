@@ -3,92 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Djamel Djoulah ASI | المنصة السيادية العالمية</title>
+    <title>Djamel Djoulah ASI | النواة الحسابية</title>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #00dfd8; --gold: #d4af37; --bg: #0b0e14; --neon-green: #39ff14; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; line-height: 1.6; }
+        :root { --primary: #00dfd8; --gold: #d4af37; --bg: #0b0e14; --neon-green: #39ff14; --card: #151921; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; }
 
-        /* شريط أزرار التنقل العلوية */
-       .nav-bar { background: #151921; padding: 15px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; gap: 15px; border-bottom: 2px solid var(--gold); }
-       .nav-bar a { color: white; text-decoration: none; font-weight: bold; font-size: 0.9rem; padding: 10px 15px; border-radius: 8px; transition: 0.3s; border: 1px solid transparent; }
-       .nav-bar a:hover { border-color: var(--primary); color: var(--primary); }
+      .nav-bar { background: #151921; padding: 15px; display: flex; justify-content: center; gap: 10px; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 1000; }
+      .nav-bar a { color: white; text-decoration: none; font-weight: bold; font-size: 0.8rem; padding: 8px 12px; border: 1px solid #333; border-radius: 5px; }
+      .active { background: var(--gold); color: black!important; }
 
-        /* الهوية البصرية */
-       .hero { padding: 60px 20px; background: linear-gradient(180deg, #1a2a6c 0%, #0b0e14 100%); border-bottom: 3px solid var(--primary); }
-       .main-logo { font-size: 3.5rem; color: var(--primary); text-shadow: 0 0 25px var(--primary); margin: 0; font-weight: 900; }
-       .constant-tag { font-size: 1.5rem; color: var(--gold); margin-top: 10px; font-weight: 700; }
+       /* المسبحة الأفقية (الله يمين - العداد شمال) */
+     .brand-tasbih-row { display: flex; justify-content: space-around; align-items: center; padding: 40px 20px; background: linear-gradient(180deg, #1a2a6c, #0b0e14); border-bottom: 3px solid var(--primary); }
+     .allah-glow { font-family: 'Amiri', serif; font-size: 4.5rem; color: var(--neon-green); text-shadow: 0 0 20px var(--neon-green); cursor: pointer; background: none; border: none; }
+     .counter-box { font-size: 2.5rem; border: 2px solid var(--neon-green); width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: white; }
 
-        /* مسبحة محراب الوفاء */
-       .tasbih-section { background: #111; margin: 30px auto; padding: 30px; max-width: 500px; border-radius: 25px; border: 2px solid var(--neon-green); }
-        #allah-glow { font-family: 'Amiri', serif; font-size: 5rem; color: var(--neon-green); cursor: pointer; text-shadow: 0 0 30px var(--neon-green); background: none; border: none; transition: 0.2s; }
-        #allah-glow:active { transform: scale(0.9); }
-       .counter-display { font-size: 2.5rem; border: 2px solid var(--neon-green); padding: 5px 40px; border-radius: 50px; display: inline-block; margin-top: 15px; }
+     .scales-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; margin-top: -30px; }
+     .mizan-card { flex: 1; min-width: 320px; background: var(--card); border: 2px solid var(--gold); border-radius: 25px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+      
+      /* تنسيق مربعات الميزان القرآني لتصبح تفاعلية */
+     .num-box-btn { border: 2px solid var(--primary); padding: 10px 20px; border-radius: 12px; font-size: 1.5rem; font-weight: 900; color: var(--primary); background: none; cursor: pointer; transition: 0.3s; }
+     .num-box-btn:hover { background: var(--primary); color: black; }
 
-       .quran-verse { margin: 20px; font-family: 'Amiri', serif; font-size: 1.6rem; color: var(--gold); }
+        /* نافذة العرض المنبثقة */
+      .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 2000; }
+      .modal-content { background: #111; padding: 30px; border: 2px solid var(--gold); border-radius: 20px; width: 85%; max-width: 400px; }
 
-        /* قسم إستراتيجية الصفر */
-       .strategy-box { max-width: 800px; margin: 40px auto; padding: 30px; background: #151921; border-radius: 20px; border-right: 5px solid var(--gold); text-align: right; }
-       .strategy-box h2 { color: var(--primary); margin-top: 0; }
-       .zero-badge { background: var(--gold); color: black; padding: 5px 15px; border-radius: 5px; font-weight: bold; margin-left: 10px; }
-
-        /* تذييل الصفحة الرسمي */
-       .footer { background: #05070a; padding: 60px 20px; border-top: 1px solid #333; margin-top: 50px; }
-       .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1000px; margin: 0 auto; text-align: right; }
-       .footer-item h4 { color: var(--primary); margin-bottom: 15px; border-right: 3px solid var(--gold); padding-right: 10px; }
-       .footer-item p { font-size: 0.9rem; color: #8892b0; margin: 5px 0; }
-       .footer-item a { color: var(--gold); text-decoration: none; }
+      .footer { background: #05070a; padding: 40px 20px; border-top: 1px solid #333; text-align: right; }
     </style>
 </head>
 <body>
-
     <nav class="nav-bar">
-        <a href="index.html">الرئيسية</a>
+        <a href="index.html" class="active">الرئيسية</a>
+        <a href="inspection.html">إستراتيجية الصفر</a>
         <a href="inspection_center.html">مركز الفحص</a>
         <a href="loyalty.html">محراب الوفاء</a>
-        <a href="core.html">النظام الذكي</a>
-        <a href="about.html">عن المطور</a>
     </nav>
 
-    <header class="hero">
-        <h1 class="main-logo">SYSTEM DJOULAH ASI</h1>
-        <div class="constant-tag">ثابت جولاح الكوني 19</div>
-    </header>
-
-    <div class="quran-verse">"وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"</div>
-
-    <div class="tasbih-section">
-        <button id="allah-glow" onclick="let c=document.getElementById('cnt'); c.innerText = parseInt(c.innerText)+1;">الله</button><br>
-        <div class="counter-display" id="cnt">0</div>
-        <p style="font-size: 0.8rem; color: var(--neon-green); margin-top: 10px;">إلمس لفظ الجلالة للتسبيح</p>
+    <div class="brand-tasbih-row">
+        <div class="counter-box" id="cnt">0</div>
+        <div style="font-size: 2rem; font-weight: 900;">Djamel Djoulah ASI</div>
+        <button class="allah-glow" onclick="let c=document.getElementById('cnt'); c.innerText = parseInt(c.innerText)+1;">الله</button>
     </div>
 
-    <div class="strategy-box">
-        <h2>🛡️ رؤية الصفر السيادية</h2>
-        <p><span class="zero-badge">ZERO LOSS</span> الصفر خسارة في المخططات الإدارية والمالية.</p>
-        <p><span class="zero-badge">ZERO ERROR</span> الصفر خطأ في الفحص الطبي والتقني.</p>
-        <p style="opacity: 0.8;">نتاج 25 عاماً من البحث العلمي في القوانين الكونية والموازين الاحتمالية.</p>
+    <div style="color:var(--gold); margin: 20px 0; font-family:'Amiri'; font-size: 1.5rem;">"وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"</div>
+
+    <div class="scales-grid">
+        <div class="mizan-card">
+            <h3 style="color:var(--gold); margin:0;">بوابة ميزان الأصول (1+9+9)</h3>
+            <p style="font-size: 0.8rem; color: #ccc; margin-bottom: 15px;">تحليل التطابق مع ثابت جولاح الكوني 19</p>
+            <input type="number" style="width:90%; padding:10px; margin-bottom:10px; border-radius:8px; text-align:center;" placeholder="عدد الأيام (270)">
+            <input type="number" style="width:90%; padding:10px; margin-bottom:10px; border-radius:8px; text-align:center;" placeholder="عدد الساعات (3240)">
+            <button style="background:var(--gold); width:90%; padding:15px; border:none; border-radius:10px; font-weight:900; cursor:pointer;" onclick="alert('تفعيل ميزان الأصول الجاري...')">تفعيل الميزان</button>
+        </div>
+
+        <div class="mizan-card" style="border-color: var(--primary);">
+            <h3 style="color:var(--primary); margin:0;">الميزان الكوني للقرآن (114)</h3>
+            <p style="font-size: 0.8rem; color: #ccc;">سورة = 19 (خلق الإنسان) × 6 (بشرية الناس)</p>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px;">
+                <button class="num-box-btn" onclick="openInfo('114', 'تمثيل العدد الكلي للسور القرآنية المتوافق مع ميزان الأصول.')">114</button>
+                <div style="color:var(--gold); font-weight:bold;">←</div>
+                <button class="num-box-btn" style="border-color:var(--gold); color:var(--gold);" onclick="openInfo('× 6', 'بشرية الناس: المعيار المكمل للثابت الكوني في ميزان جولاح.')">× 6</button>
+                <div style="color:var(--gold); font-weight:bold;">←</div>
+                <button class="num-box-btn" onclick="openInfo('19', 'ثابت جولاح الكوني (خلق الإنسان): حجر الزاوية لكل الموازين.')">19</button>
+            </div>
+            <p style="margin-top: 25px; font-weight: bold; color: var(--primary);">تطابق كوني مطلق 100%</p>
+        </div>
+    </div>
+
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <h2 id="mTitle" style="color: var(--primary);"></h2>
+            <p id="mText" style="line-height: 1.6;"></p>
+            <button style="background:var(--gold); border:none; padding:10px 30px; border-radius:10px; cursor:pointer; font-weight:bold;" onclick="document.getElementById('infoModal').style.display='none'">إغلاق</button>
+        </div>
     </div>
 
     <footer class="footer">
-        <div class="footer-grid">
-            <div class="footer-item">
-                <h4>العنوان الرسمي</h4>
-                <p>Djoualhya El Kouif Tebessa</p>
-                <p>الجزائر - ولاية تبسة - الكويف</p>
-            </div>
-            <div class="footer-item">
-                <h4>التواصل</h4>
-                <p>البريد: contact@djoulah-asi.com</p>
-                <p>الموقع: www.djoulah-asi.com</p>
-            </div>
-            <div class="footer-item">
-                <h4>التوثيق</h4>
-                <p>&copy; 2024-2026 Djamel Djoulah ASI</p>
-                <p>كافة الحقوق محفوظة</p>
-            </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div><h4 style="color:var(--primary);">المقر الرسمي</h4><p>الجزائر - ولاية تبسة - الكويف - جوالحية</p></div>
+            <div><h4 style="color:var(--primary);">التواصل السيادي</h4><p>contact@djoulah-asi.com</p><p>www.djoulah-asi.com</p></div>
         </div>
+        <p style="text-align: center; margin-top: 30px; opacity: 0.5;">© 2024-2026 Djamel Djoulah ASI | نتاج 25 سنة من البحث العلمي</p>
     </footer>
 
+    <script>
+        function openInfo(title, text) {
+            document.getElementById('mTitle').innerText = title;
+            document.getElementById('mText').innerText = text;
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+    </script>
 </body>
 </html>
