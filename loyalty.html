@@ -3,98 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محراب الوفاء والسيادة | Djamel Djoulah ASI</title>
+    <title>محراب الوفاء | Djamel Djoulah ASI</title>
     <style>
-        :root { --gold: #d4af37; --neon-green: #39ff14; --bg: #0b0e14; }
-        body { background-color: var(--bg); color: white; font-family: sans-serif; text-align: center; margin: 0; }
+        :root { --gold: #d4af37; --bg: #0a0e14; --card: #1a1f26; --green: #00ff00; }
+        body { background: var(--bg); color: #fff; font-family: sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; min-height: 100vh; }
         
-        /* أزرار التنقل العلوية - تم تفعيل الروابط */
-        .nav-header { background: #151921; padding: 20px 10px; display: flex; justify-content: center; gap: 15px; border-bottom: 2px solid #1a2a6c; }
-        .nav-btn { color: white; text-decoration: none; padding: 8px 20px; border: 1px solid var(--gold); border-radius: 5px; font-weight: bold; font-size: 14px; }
-        .nav-btn.active { background: var(--gold); color: black; }
+        /* التسبيح */
+        .toolbar { display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(0,255,0,0.05); padding: 10px; border-radius: 40px; margin: 10px auto; border: 1px solid rgba(0,255,0,0.3); width: fit-content; }
+        .allah { color: var(--green); font-size: 1.8rem; text-shadow: 0 0 15px var(--green); cursor: pointer; }
+        .counter { border: 2px solid var(--green); padding: 2px 12px; border-radius: 12px; font-size: 1.3rem; }
 
-        /* المسبحة الأفقية العكسية (الله يمين - العداد يسار) */
-        .tasbih-container { 
-            background: linear-gradient(to bottom, #1a2a6c, #0b0e14); 
-            padding: 40px 10px; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 25px; 
-            border-bottom: 3px solid var(--neon-green);
-        }
-        .allah-text { font-size: 4.5rem; color: var(--neon-green); text-shadow: 0 0 25px var(--neon-green); cursor: pointer; user-select: none; }
-        .counter-circle { font-size: 3rem; border: 3px solid var(--neon-green); width: 90px; height: 90px; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: white; }
+        .verse-box { border: 1px dashed var(--gold); padding: 12px; text-align: center; color: var(--gold); margin: 10px 0; border-radius: 10px; }
 
-        /* محرك البحث المطور مع زر */
-        .search-area { margin: 25px auto; max-width: 90%; }
-        .search-input-group { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; }
-        .search-area input { width: 70%; padding: 12px; border-radius: 25px; border: 1px solid var(--gold); background: #000; color: white; text-align: center; }
-        .btn-search { background: var(--gold); color: black; border: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; }
-        .engine-btns { display: flex; justify-content: center; gap: 10px; }
-        .engine-btns button { background: #1a1f29; color: #00dfd8; border: 1px solid #00dfd8; padding: 6px 15px; border-radius: 5px; cursor: pointer; font-size: 12px; }
-
-        .ward-container { margin: 25px; border: 1px dashed var(--gold); padding: 20px; color: var(--gold); font-size: 1.3rem; }
-
-        /* الشبكة التفاعلية */
-        .grid-family { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px 40px; }
-        .family-card { background: #1a1f29; border: 2px solid var(--gold); border-radius: 15px; padding: 30px 10px; cursor: pointer; font-weight: bold; font-size: 1.1rem; }
+        /* الأركان الأربعة */
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .card { background: var(--card); border: 1px solid var(--gold); border-radius: 18px; padding: 12px; text-align: center; position: relative; }
         
-        #commentBox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; }
-        .box-content { background: #111; padding: 25px; border: 2px solid var(--gold); border-radius: 20px; width: 85%; }
+        /* إطار الصورة مع زر التحميل */
+        .upload-container { position: relative; width: 80px; height: 80px; margin: 0 auto 10px; }
+        .img-frame { width: 100%; height: 100%; border: 2px solid var(--gold); overflow: hidden; background: #222; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .round { border-radius: 50%; }
+        .square { border-radius: 8px; }
+        .img-frame img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        
+        /* زر الكاميرا للتحميل */
+        .cam-btn { position: absolute; bottom: 0; right: 0; background: var(--gold); color: #000; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; border: 2px solid var(--bg); cursor: pointer; }
+        input[type="file"] { display: none; }
+
+        .bio { font-size: 0.65rem; color: #aaa; margin-bottom: 5px; height: 35px; }
+        .display { min-height: 35px; background: rgba(0,0,0,0.4); margin-bottom: 8px; padding: 5px; font-size: 0.8rem; color: var(--gold); border-radius: 8px; width: 100%; display: flex; align-items: center; justify-content: center; }
+        .input { width: 85%; background: #000; border: 1px solid #444; color: #fff; padding: 6px; border-radius: 5px; margin-bottom: 5px; font-size: 0.75rem; text-align: center; }
+        .btn { background: var(--gold); border: none; padding: 8px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; }
+
+        .asi { background: #111; border: 1px solid #333; border-radius: 12px; padding: 15px; margin-top: auto; }
+        .footer { text-align: center; padding: 15px; color: #555; font-size: 0.75rem; }
     </style>
 </head>
 <body>
 
-    <div class="nav-header">
-        <a href="index.html" class="nav-btn">الرئيسية</a>
-        <a href="loyalty.html" class="nav-btn active">محراب الوفاء</a>
-    </div>
+<div class="toolbar">
+    <span class="allah" onclick="document.getElementById('v').innerText++">الله</span>
+    <div class="counter" id="v">0</div>
+</div>
 
-    <div class="tasbih-container">
-        <div class="allah-text" onclick="let n=document.getElementById('num'); n.innerText = parseInt(n.innerText)+1;">الله</div>
-        <div class="counter-circle" id="num">0</div>
-    </div>
-    <p style="color: var(--neon-green); font-size: 12px; margin-top: 10px;">إلمس كلمة الله للتسبيح (صدقة جارية)</p>
+<div class="verse-box">"وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"</div>
 
-    <div class="search-area">
-        <div class="search-input-group">
-            <input type="text" id="userInput" placeholder="ابحث في الويب...">
-            <button class="btn-search" onclick="window.open('https://www.google.com/search?q=' + document.getElementById('userInput').value)">بحث</button>
+<div class="grid">
+    <div class="card">
+        <div class="upload-container">
+            <label for="up1" class="img-frame round"><span id="ph1">👤</span><img id="im1"></label>
+            <label for="up1" class="cam-btn">📷</label>
+            <input type="file" id="up1" accept="image/*" onchange="loadImg(event, 'im1', 'ph1')">
         </div>
-        <div class="engine-btns">
-            <button onclick="window.open('https://www.bing.com/search?q=' + document.getElementById('userInput').value)">Bing</button>
-            <button onclick="window.open('https://www.google.com/search?q=' + document.getElementById('userInput').value)">Google</button>
+        <h4 style="margin:5px 0; font-size: 0.85rem;">الوالد رحمه الله</h4>
+        <div class="bio">محمد بن سالم جولاح (الزيتونة - ق 19)</div>
+        <div id="d1" class="display">رحمه الله</div>
+        <input id="i1" class="input" placeholder="أكتب ترحماً...">
+        <button class="btn" onclick="p(1)">إضافة</button>
+    </div>
+
+    <div class="card">
+        <div class="upload-container">
+            <label for="up2" class="img-frame round"><span id="ph2">👤</span><img id="im2"></label>
+            <label for="up2" class="cam-btn">📷</label>
+            <input type="file" id="up2" accept="image/*" onchange="loadImg(event, 'im2', 'ph2')">
         </div>
+        <h4 style="margin:5px 0; font-size: 0.85rem;">الوالدة رحمها الله</h4>
+        <div class="bio">نبع الحنان والوفاء</div>
+        <div id="d2" class="display">في جنات الخلد</div>
+        <input id="i2" class="input" placeholder="أكتب ترحماً...">
+        <button class="btn" onclick="p(2)">إضافة</button>
     </div>
 
-    <div class="ward-container">"وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"</div>
-
-    <div class="grid-family">
-        <div class="family-card" onclick="showPopup('الوالد')">الوالد</div>
-        <div class="family-card" onclick="showPopup('الجد')">الجد</div>
-        <div class="family-card" onclick="showPopup('الوالدة')">الوالدة</div>
-        <div class="family-card" onclick="showPopup('الأهل')">الأهل</div>
-    </div>
-
-    <div id="commentBox">
-        <div class="box-content">
-            <h3 id="targetName" style="color: var(--gold);"></h3>
-            <textarea id="txt" style="width:100%; height:100px; background:#000; color:white; border:1px solid #444; border-radius:10px; padding:10px;"></textarea><br>
-            <button onclick="alert('تم الحفظ في سجل الوفاء'); document.getElementById('commentBox').style.display='none'" style="margin-top:15px; padding:12px 30px; background:var(--gold); border:none; border-radius:10px; font-weight:bold;">إرسال وإغلاق</button>
+    <div class="card">
+        <div class="upload-container">
+            <label for="up3" class="img-frame square"><span id="ph3">🏠</span><img id="im3"></label>
+            <label for="up3" class="cam-btn">📷</label>
+            <input type="file" id="up3" accept="image/*" onchange="loadImg(event, 'im3', 'ph3')">
         </div>
+        <h4 style="margin:5px 0; font-size: 0.85rem;">جدي الشيخ القادري</h4>
+        <div class="bio">سالم بن أحمد (شيخ القادرية - ق 18)</div>
+        <div id="d3" class="display">طيب الله ثراه</div>
+        <input id="i3" class="input" placeholder="أكتب تعليقاً...">
+        <button class="btn" onclick="p(3)">إضافة</button>
     </div>
 
-    <script>
-        function showPopup(name) {
-            document.getElementById('targetName').innerText = "سجل الترحم لـ: " + name;
-            document.getElementById('commentBox').style.display = 'flex';
-        }
-    </script>
+    <div class="card">
+        <div class="upload-container">
+            <label for="up4" class="img-frame square"><span id="ph4">👥</span><img id="im4"></label>
+            <label for="up4" class="cam-btn">📷</label>
+            <input type="file" id="up4" accept="image/*" onchange="loadImg(event, 'im4', 'ph4')">
+        </div>
+        <h4 style="margin:5px 0; font-size: 0.85rem;">الأهل والأقارب</h4>
+        <div class="bio">رحم الله كل غائب</div>
+        <div id="d4" class="display">اللهم اغفر لهم</div>
+        <input id="i4" class="input" placeholder="أكتب ذكراً...">
+        <button class="btn" onclick="p(4)">إضافة</button>
+    </div>
+</div>
 
-    <footer style="padding: 20px; opacity: 0.4; font-size: 11px;">
-        Djamel Djoulah ASI | 2026
-    </footer>
+<div class="asi">
+    <div style="color:var(--gold); margin-bottom:8px; font-size: 0.85rem;">📝 مذكرة المهام (ASI)</div>
+    <div style="display:flex; gap:5px;">
+        <input class="input" style="flex-grow:1; margin:0;" placeholder="مهمة جديدة...">
+        <button class="btn" style="width:auto; padding:0 15px;">إضافة</button>
+    </div>
+</div>
 
+<div class="footer">جوالحية الكويف تبسة الجزائر</div>
+
+<script>
+    // وظيفة تحميل الصورة وعرضها
+    function loadImg(event, imgId, placeholderId) {
+        const image = document.getElementById(imgId);
+        const placeholder = document.getElementById(placeholderId);
+        image.src = URL.createObjectURL(event.target.files[0]);
+        image.style.display = 'block';
+        placeholder.style.display = 'none';
+    }
+
+    function p(id){
+        const i=document.getElementById('i'+id), d=document.getElementById('d'+id);
+        if(i.value.trim()){ d.innerText=i.value; i.value=""; }
+    }
+</script>
 </body>
 </html>
+
+

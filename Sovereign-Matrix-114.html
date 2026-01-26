@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="المخطط الرسمي للأحرف للباحث جمال جولاح - دراسة في الإعجاز العددي وكتاب مرقوم">
+    <meta name="keywords" content="جمال جولاح, المخطط الرسمي للأحرف, كتاب مرقوم, الإعجاز العددي, الميزان السيادي, الثابت الكوني 19">
+    <meta name="author" content="جمال جولاح - Djamel Djoulah ASI">
+    
+    <title>جمال جولاح | المخطط الرسمي للأحرف</title>
+    
+    <style>
+        :root { --gold: #d4af37; --green: #00ff00; --cyan: #00e5ff; }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; overflow: hidden; height: 100vh; }
+        
+        canvas { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.15; }
+
+        .main-wrapper { 
+            position: relative; z-index: 10; height: 100vh; 
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            padding: 20px;
+        }
+
+        .orbit-container {
+            position: relative; width: 450px; height: 450px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        #mainRing {
+            position: absolute; width: 100%; height: 100%;
+            border-radius: 50%; border: 1px solid rgba(212, 175, 55, 0.2);
+            animation: rotate-right 60s linear infinite;
+            animation-play-state: paused;
+        }
+
+        @keyframes rotate-right { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .center-portal { text-align: center; z-index: 30; }
+        .nums { font-size: 3.5rem; color: var(--gold); font-weight: bold; text-shadow: 0 0 20px var(--gold); }
+        
+        .quran-verse {
+            color: var(--gold); font-size: 1.8rem; margin: 15px 0;
+            text-shadow: 0 0 10px var(--gold); opacity: 0.5;
+            transition: 1s;
+        }
+        .active-verse { opacity: 1; transform: scale(1.1); text-shadow: 0 0 25px var(--gold); }
+
+        .btn-trigger {
+            background: rgba(212, 175, 55, 0.1); border: 2px solid var(--gold); color: var(--gold);
+            padding: 15px 40px; font-size: 1.4rem; cursor: pointer;
+            border-radius: 50px; transition: 0.3s; font-weight: bold;
+        }
+        .btn-trigger:hover { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold); }
+
+        .surah-tag {
+            position: absolute; top: 50%; left: 50%;
+            transform-origin: -220px; color: var(--cyan);
+            font-size: 0.8rem; font-weight: bold;
+        }
+
+        footer { text-align: center; border-top: 1px solid rgba(212,175,55,0.2); width: 100%; padding: 15px; }
+    </style>
+</head>
+<body>
+
+<audio id="holyAudio">
+    <source src="https://server7.mp3quran.net/basit/083.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="matrix"></canvas>
+
+<div class="main-wrapper">
+    <div style="color: var(--gold); font-size: 2.2rem; font-weight: bold; text-shadow: 0 0 15px var(--gold);">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+
+    <div class="orbit-container">
+        <div id="mainRing"></div>
+        <div class="center-portal">
+            <div class="nums">38 71 82</div>
+            <div id="verse" class="quran-verse">۞ كِتَابٌ مَرْقُومٌ ۞</div>
+            <div style="color: var(--green); font-size: 1.2rem; margin-bottom: 15px;">1 + (10 × 19) = 191</div>
+            <button id="masterBtn" class="btn-trigger">تفعيل الاستنباط</button>
+        </div>
+    </div>
+
+    <footer>
+        <h2 style="margin:0; font-size: 2rem; color: #fff;">DJAMEL DJOULAH ASI</h2>
+        <p style="color: var(--gold); margin:5px 0; font-size: 1.1rem;">الباحث: جمال جولاح</p>
+        <div style="font-size: 0.85rem; color: var(--green);">المخطط الرسمي للأحرف | الإعجاز العددي | "كِتَابٌ مَرْقُومٌ"</div>
+    </footer>
+</div>
+
+<script>
+    const ring = document.getElementById('mainRing');
+    const btn = document.getElementById('masterBtn');
+    const audio = document.getElementById('holyAudio');
+    const verse = document.getElementById('verse');
+
+    // توليد السور
+    for (let i = 1; i <= 114; i++) {
+        const d = document.createElement('div');
+        d.className = 'surah-tag';
+        d.innerText = i;
+        const angle = (i / 114) * 360;
+        d.style.transform = `rotate(${angle}deg) translate(220px) rotate(-${angle}deg)`;
+        ring.appendChild(d);
+    }
+
+    // التحكم
+    btn.addEventListener('click', function() {
+        if (ring.style.animationPlayState === 'paused' || ring.style.animationPlayState === '') {
+            ring.style.animationPlayState = 'running';
+            audio.play();
+            verse.classList.add('active-verse');
+            btn.innerText = "إيقاف الاستنباط";
+        } else {
+            ring.style.animationPlayState = 'paused';
+            audio.pause();
+            verse.classList.remove('active-verse');
+            btn.innerText = "تفعيل الاستنباط";
+        }
+    });
+
+    // خلفية الأرقام
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    const drops = Array(Math.floor(canvas.width/20)).fill(1);
+    function draw() {
+        ctx.fillStyle = "rgba(0,0,0,0.1)"; ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle = "#0F0"; ctx.font = "15px monospace";
+        drops.forEach((y, i) => {
+            ctx.fillText(Math.random() > 0.5 ? "1" : "0", i*20, y*20);
+            if(y*20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        });
+    }
+    setInterval(draw, 50);
+</script>
+</body>
+</html>
+

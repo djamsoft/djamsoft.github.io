@@ -3,96 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Djamel Djoulah ASI | النواة الحسابية</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Djamel Djoulah ASI | الكتاب المرقوم</title>
     <style>
-        :root { --primary: #00dfd8; --gold: #d4af37; --bg: #0b0e14; --neon-green: #39ff14; --card: #151921; }
-        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: white; margin: 0; text-align: center; }
+        :root { --gold: #d4af37; --green: #00ff00; --cyan: #00e5ff; }
+        body { background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
+        
+        /* المطر الرقمي */
+        #matrix { position: fixed; top: 0; left: 0; z-index: 1; opacity: 0.3; }
 
-      .nav-bar { background: #151921; padding: 15px; display: flex; justify-content: center; gap: 10px; border-bottom: 2px solid var(--gold); position: sticky; top: 0; z-index: 1000; }
-      .nav-bar a { color: white; text-decoration: none; font-weight: bold; font-size: 0.8rem; padding: 8px 12px; border: 1px solid #333; border-radius: 5px; }
-      .active { background: var(--gold); color: black!important; }
+        .wrapper { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; padding: 50px 20px; }
 
-       /* المسبحة الأفقية (الله يمين - العداد شمال) */
-     .brand-tasbih-row { display: flex; justify-content: space-around; align-items: center; padding: 40px 20px; background: linear-gradient(180deg, #1a2a6c, #0b0e14); border-bottom: 3px solid var(--primary); }
-     .allah-glow { font-family: 'Amiri', serif; font-size: 4.5rem; color: var(--neon-green); text-shadow: 0 0 20px var(--neon-green); cursor: pointer; background: none; border: none; }
-     .counter-box { font-size: 2.5rem; border: 2px solid var(--neon-green); width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; border-radius: 50%; color: white; }
+        /* الشعار المركزي ولفظ الجلالة */
+        .holy-emblem {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-     .scales-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; padding: 20px; margin-top: -30px; }
-     .mizan-card { flex: 1; min-width: 320px; background: var(--card); border: 2px solid var(--gold); border-radius: 25px; padding: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-      
-      /* تنسيق مربعات الميزان القرآني لتصبح تفاعلية */
-     .num-box-btn { border: 2px solid var(--primary); padding: 10px 20px; border-radius: 12px; font-size: 1.5rem; font-weight: 900; color: var(--primary); background: none; cursor: pointer; transition: 0.3s; }
-     .num-box-btn:hover { background: var(--primary); color: black; }
+        .bismillah-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            animation: rotate-ring 30s linear infinite;
+        }
 
-        /* نافذة العرض المنبثقة */
-      .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 2000; }
-      .modal-content { background: #111; padding: 30px; border: 2px solid var(--gold); border-radius: 20px; width: 85%; max-width: 400px; }
+        .allah-center {
+            font-size: 95px;
+            color: var(--green);
+            filter: drop-shadow(0 0 30px var(--green));
+            font-weight: bold;
+            z-index: 15;
+            font-family: 'Amiri', serif;
+        }
 
-      .footer { background: #05070a; padding: 40px 20px; border-top: 1px solid #333; text-align: right; }
+        @keyframes rotate-ring {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* جعل الإسم في الوسط وتحت الشعار مباشرة */
+        .brand-title { 
+            font-size: 3rem; 
+            color: var(--gold); 
+            margin: 10px 0; 
+            font-weight: bold; 
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+            text-align: center;
+        }
+
+        .sub-title { 
+            color: var(--gold); 
+            margin-bottom: 40px; 
+            font-size: 1.4rem; 
+            letter-spacing: 5px;
+            opacity: 0.9;
+        }
+
+        /* لوحة الكتاب المرقوم الكبيرة */
+        .main-card {
+            width: 95%; max-width: 950px; 
+            background: rgba(0, 8, 20, 0.95);
+            border: 2px solid var(--gold); 
+            border-radius: 40px; 
+            padding: 50px;
+            box-shadow: 0 0 70px rgba(212, 175, 55, 0.2); 
+            backdrop-filter: blur(15px);
+            text-align: center;
+        }
+
+        .input-group input {
+            width: 100%; box-sizing: border-box; padding: 22px; margin: 15px 0;
+            background: #000; border: 1px solid #444; color: var(--cyan);
+            text-align: center; border-radius: 15px; font-size: 1.4rem;
+        }
+
+        .btn-activate {
+            width: 100%; padding: 25px; background: var(--gold); color: #000;
+            border: none; border-radius: 15px; font-weight: bold; font-size: 1.8rem;
+            cursor: pointer; margin: 25px 0; transition: 0.4s;
+        }
+        .btn-activate:hover { background: #fff; box-shadow: 0 0 40px var(--gold); transform: scale(1.02); }
+
+        /* الميزان الكوني */
+        .balance-box { display: flex; justify-content: center; align-items: center; gap: 25px; margin: 50px 0; }
+        .num-unit { border: 3px solid var(--green); padding: 30px 55px; border-radius: 20px; font-size: 4rem; color: var(--green); font-weight: bold; }
+
+        .terminal { 
+            background: #000; border: 1px solid #1a331a; padding: 25px; 
+            height: 150px; overflow-y: auto; color: var(--green); 
+            font-family: 'Courier New', monospace; text-align: right; border-radius: 15px; 
+        }
+
+        footer { 
+            width: 100%; background: #000; border-top: 1px solid var(--cyan);
+            padding: 60px 0; margin-top: 100px; text-align: center;
+        }
     </style>
 </head>
 <body>
-    <nav class="nav-bar">
-        <a href="index.html" class="active">الرئيسية</a>
-        <a href="inspection.html">إستراتيجية الصفر</a>
-        <a href="inspection_center.html">مركز الفحص</a>
-        <a href="loyalty.html">محراب الوفاء</a>
-    </nav>
 
-    <div class="brand-tasbih-row">
-        <div class="counter-box" id="cnt">0</div>
-        <div style="font-size: 2rem; font-weight: 900;">Djamel Djoulah ASI</div>
-        <button class="allah-glow" onclick="let c=document.getElementById('cnt'); c.innerText = parseInt(c.innerText)+1;">الله</button>
+<canvas id="matrix"></canvas>
+
+<div class="wrapper">
+    <div class="holy-emblem">
+        <div class="bismillah-ring">
+            <svg viewBox="0 0 200 200">
+                <path id="circlePath" d="M 100, 100 m -85, 0 a 85,85 0 1,1 170,0 a 85,85 0 1,1 -170,0" fill="transparent"/>
+                <text fill="#d4af37" style="font-size: 15px; font-weight: bold; font-family: 'Amiri', serif;">
+                    <textPath href="#circlePath">
+                        بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ • بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ •
+                    </textPath>
+                </text>
+            </svg>
+        </div>
+        <div class="allah-center">الله</div>
     </div>
 
-    <div style="color:var(--gold); margin: 20px 0; font-family:'Amiri'; font-size: 1.5rem;">"وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"</div>
+    <div class="brand-title">DJAMEL DJOULAH ASI</div>
+    <div class="sub-title">"كِتَابٌ مَرْقُومٌ"</div>
 
-    <div class="scales-grid">
-        <div class="mizan-card">
-            <h3 style="color:var(--gold); margin:0;">بوابة ميزان الأصول (1+9+9)</h3>
-            <p style="font-size: 0.8rem; color: #ccc; margin-bottom: 15px;">تحليل التطابق مع ثابت جولاح الكوني 19</p>
-            <input type="number" style="width:90%; padding:10px; margin-bottom:10px; border-radius:8px; text-align:center;" placeholder="عدد الأيام (270)">
-            <input type="number" style="width:90%; padding:10px; margin-bottom:10px; border-radius:8px; text-align:center;" placeholder="عدد الساعات (3240)">
-            <button style="background:var(--gold); width:90%; padding:15px; border:none; border-radius:10px; font-weight:900; cursor:pointer;" onclick="alert('تفعيل ميزان الأصول الجاري...')">تفعيل الميزان</button>
+    <div class="main-card">
+        <h2 style="color: var(--gold); margin-bottom: 35px; border-bottom: 1px solid #333; padding-bottom: 15px;">بوابة ميزان الأصول (9+9+1)</h2>
+        
+        <div class="input-group">
+            <input type="number" id="days" placeholder="الأيام الرقمية">
+            <input type="number" id="hours" placeholder="الساعات الرقمية">
+            <input type="text" id="subject" placeholder="اسم الحالة للترقيم السيادي">
+        </div>
+        
+        <button class="btn-activate" onclick="runSovereign()">تفعيل الكتاب المرقوم</button>
+
+        <h2 style="color: var(--cyan); margin-top: 50px;">الميزان الكوني الشامل (114)</h2>
+        <div class="balance-box">
+            <div class="num-unit">114</div>
+            <span style="font-size: 3rem; color: var(--gold);">=</span>
+            <div class="num-unit" style="border-color: var(--gold); color: var(--gold);">6</div>
+            <span style="font-size: 3rem; color: var(--gold);">×</span>
+            <div class="num-unit">19</div>
         </div>
 
-        <div class="mizan-card" style="border-color: var(--primary);">
-            <h3 style="color:var(--primary); margin:0;">الميزان الكوني للقرآن (114)</h3>
-            <p style="font-size: 0.8rem; color: #ccc;">سورة = 19 (خلق الإنسان) × 6 (بشرية الناس)</p>
-            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 20px;">
-                <button class="num-box-btn" onclick="openInfo('114', 'تمثيل العدد الكلي للسور القرآنية المتوافق مع ميزان الأصول.')">114</button>
-                <div style="color:var(--gold); font-weight:bold;">←</div>
-                <button class="num-box-btn" style="border-color:var(--gold); color:var(--gold);" onclick="openInfo('× 6', 'بشرية الناس: المعيار المكمل للثابت الكوني في ميزان جولاح.')">× 6</button>
-                <div style="color:var(--gold); font-weight:bold;">←</div>
-                <button class="num-box-btn" onclick="openInfo('19', 'ثابت جولاح الكوني (خلق الإنسان): حجر الزاوية لكل الموازين.')">19</button>
-            </div>
-            <p style="margin-top: 25px; font-weight: bold; color: var(--primary);">تطابق كوني مطلق 100%</p>
-        </div>
-    </div>
-
-    <div id="infoModal" class="modal">
-        <div class="modal-content">
-            <h2 id="mTitle" style="color: var(--primary);"></h2>
-            <p id="mText" style="line-height: 1.6;"></p>
-            <button style="background:var(--gold); border:none; padding:10px 30px; border-radius:10px; cursor:pointer; font-weight:bold;" onclick="document.getElementById('infoModal').style.display='none'">إغلاق</button>
+        <div class="terminal" id="system-log">
+            [النظام]: بانتظار إدخال المعطيات لتفعيل الميزان...
         </div>
     </div>
+</div>
 
-    <footer class="footer">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div><h4 style="color:var(--primary);">المقر الرسمي</h4><p>الجزائر - ولاية تبسة - الكويف - جوالحية</p></div>
-            <div><h4 style="color:var(--primary);">التواصل السيادي</h4><p>contact@djoulah-asi.com</p><p>www.djoulah-asi.com</p></div>
+<footer>
+    <div style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 50px; max-width: 1100px; margin: 0 auto; color: #aaa;">
+        <div>
+            <h4 style="color: var(--cyan); font-size: 1.3rem;">المقر الرسمي</h4>
+            <p>الجزائر - ولاية تبسة - الكويف</p>
+            <p>الجوالحية</p>
         </div>
-        <p style="text-align: center; margin-top: 30px; opacity: 0.5;">© 2024-2026 Djamel Djoulah ASI | نتاج 25 سنة من البحث العلمي</p>
-    </footer>
+        <div>
+            <h4 style="color: var(--cyan); font-size: 1.3rem;">التواصل</h4>
+            <p>contact@djoulah-asi.com</p>
+            <p>www.djoulah-asi.com</p>
+        </div>
+    </div>
+    <p style="margin-top: 50px; opacity: 0.5; font-size: 1rem;">
+        © 2024-2026 Djamel Djoulah ASI | نتاج 25 سنة من البحث العلمي
+    </p>
+</footer>
 
-    <script>
-        function openInfo(title, text) {
-            document.getElementById('mTitle').innerText = title;
-            document.getElementById('mText').innerText = text;
-            document.getElementById('infoModal').style.display = 'flex';
+<script>
+    // تفعيل المطر الرقمي
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const drops = Array(Math.floor(canvas.width/20)).fill(1);
+    function draw() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#0F0";
+        ctx.font = "18px monospace";
+        drops.forEach((y, i) => {
+            ctx.fillText(Math.floor(Math.random()*2), i*20, y*20);
+            if(y*20 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+            drops[i]++;
+        });
+    }
+    setInterval(draw, 50);
+
+    // تفعيل محرك الميزان
+    function runSovereign() {
+        const d = document.getElementById('days').value;
+        const h = document.getElementById('hours').value;
+        const n = document.getElementById('subject').value;
+        if(!d || !h || !n) return alert("يرجى إدخال كافة المعطيات");
+
+        let root = (num) => num == 0 ? 0 : 1 + (num - 1) % 9;
+        let score = root(parseInt(d)) + root(parseInt(h)) + 1;
+        
+        const log = document.getElementById('system-log');
+        const time = new Date().toLocaleTimeString();
+
+        if(score === 19) {
+            log.innerHTML = `<div style="color:var(--gold)">[✓] تم الترقيم السيادي: ${n} | الميزان الكوني: 19 | ${time}</div>` + log.innerHTML;
+        } else {
+            log.innerHTML = `<div style="color:#ff4444">[✘] انحراف رقمي: ${n} | الميزان المحقق: ${score} | ${time}</div>` + log.innerHTML;
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
