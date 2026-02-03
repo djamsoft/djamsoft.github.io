@@ -5,133 +5,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>محراب الوفاء | Djamel Djoulah ASI</title>
     <style>
-        :root { --gold: #d4af37; --bg-dark: #0a0e14; --card-bg: #1a1f26; --green-glow: #00ff00; }
-        body { background: var(--bg-dark); color: #fff; font-family: sans-serif; margin: 0; padding: 10px; display: flex; flex-direction: column; min-height: 100vh; }
+        :root { --gold: #d4af37; --bg: #0d1117; --card: #161b22; }
+        body { background-color: var(--bg); color: white; font-family: 'Arial', sans-serif; margin: 0; text-align: center; }
         
-        .header-nav { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
-        .nav-btn { background: #222; border: 1px solid #444; color: #fff; padding: 8px 25px; border-radius: 8px; cursor: pointer; }
-        .nav-btn.active { background: var(--gold); color: #000; font-weight: bold; }
+        /* أزرار التنقل العلوي */
+        header { background: #000; padding: 15px; display: flex; justify-content: center; gap: 10px; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000; }
+        .btn-nav { padding: 10px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; border: 1px solid #444; }
+        .active { background: var(--gold); color: black; }
+        .inactive { background: #30363d; color: white; }
 
-        /* 1- المسبحة أفقياً مع زر التحكم بالصوت */
-        .toolbar-horizontal { display: flex; align-items: center; justify-content: center; gap: 20px; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 50px; margin: 10px auto; width: fit-content; border: 1px solid rgba(0,255,0,0.2); }
-        .allah-glow { color: var(--green-glow); font-size: 2.5rem; text-shadow: 0 0 15px var(--green-glow); cursor: pointer; }
-        .counter-box { border: 2px solid var(--green-glow); padding: 5px 20px; border-radius: 20px; font-size: 1.8rem; min-width: 50px; text-align: center; }
+        /* منطقة المسبحة والقرآن */
+        .tools-area { padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .tasbih-box { border: 2px solid #2e7d32; border-radius: 50px; padding: 10px 30px; display: flex; align-items: center; gap: 20px; background: rgba(0,0,0,0.2); }
+        #count { font-size: 35px; border: 2px solid #2e7d32; border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; background: #000; }
+        .allah-btn { font-size: 32px; color: #4caf50; font-weight: bold; cursor: pointer; background: none; border: none; }
+        .play-remote { font-size: 30px; color: var(--gold); cursor: pointer; }
+
+        .quran-container { display: flex; align-items: center; gap: 10px; color: #8b949e; font-size: 14px; }
+        audio { height: 35px; filter: invert(100%) sepia(100%) saturate(500%) hue-rotate(10deg); }
+
+        /* الآية الكريمة */
+        .verse { border: 1px dashed var(--gold); margin: 20px auto; padding: 20px; width: 90%; border-radius: 10px; color: var(--gold); font-size: 20px; }
+
+        /* شبكة مربعات الوفاء */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 15px; padding: 15px; max-width: 1100px; margin: 0 auto; }
+        .card { background: var(--card); border: 1px solid var(--gold); border-radius: 12px; padding: 15px; text-align: right; }
+        .bio-box { background: #000; padding: 12px; border-radius: 8px; margin: 10px 0; border-right: 4px solid var(--gold); font-size: 14px; line-height: 1.6; color: #ccc; }
         
-        /* زر تشغيل وتوقف القرآن */
-        .audio-control { background: var(--gold); border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 0 10px var(--gold); }
+        input { width: 90%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 5px; }
+        .add-btn { background: var(--gold); color: black; border: none; width: 100%; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
-        .verse-container { border: 2px dashed var(--gold); padding: 20px; text-align: center; color: var(--gold); margin: 20px 0; border-radius: 12px; }
-        .verse-text { font-size: 1.4rem; display: block; margin-bottom: 5px; }
-        .verse-ref { font-size: 0.8rem; opacity: 0.7; }
-
-        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex-grow: 1; }
-        .tribute-card { background: var(--card-bg); border: 1px solid var(--gold); border-radius: 15px; padding: 12px; text-align: center; }
-        .tribute-card h3 { margin: 0 0 10px 0; font-size: 1rem; border-bottom: 1px solid rgba(212,175,55,0.2); padding-bottom: 5px; }
-        
-        .comment-display { min-height: 45px; background: rgba(0,0,0,0.3); margin-bottom: 10px; padding: 8px; font-size: 0.95rem; color: var(--gold); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
-        .input-area { width: 85%; background: #000; border: 1px solid #444; color: #fff; padding: 8px; border-radius: 5px; margin-bottom: 8px; font-size: 0.85rem; }
-        .add-btn { background: var(--gold); border: none; padding: 6px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
-
-        /* المذكرةASI */
-        .asi-section { background: #111; border: 1px solid #333; border-radius: 12px; padding: 15px; margin-top: 20px; }
-        .asi-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: var(--gold); }
-
-        /* التذييل */
-        .footer-text { text-align: center; padding: 20px; color: #666; font-size: 0.8rem; border-top: 1px solid #222; margin-top: auto; }
+        /* المذكرة والتذييل */
+        footer { margin-top: 50px; background: #090c10; padding: 30px 15px; border-top: 2px solid #161b22; }
+        .memo-box { max-width: 500px; margin: 0 auto; background: #161b22; padding: 20px; border-radius: 15px; border: 1px solid #333; }
     </style>
 </head>
 <body>
 
-<audio id="quranAudio" loop>
-    <source src="https://server12.mp3quran.net/maher/017.mp3" type="audio/mpeg">
-</audio>
+    <header>
+        <a href="index.html" class="btn-nav inactive">الرئيسية</a>
+        <a href="loyalty.html" class="btn-nav active">محراب الوفاء</a>
+    </header>
 
-<div class="header-nav">
-    <button class="nav-btn">الرئيسية</button>
-    <button class="nav-btn active">محراب الوفاء</button>
-</div>
+    <div class="tools-area">
+        <div class="tasbih-box">
+            <div id="count">0</div>
+            <button class="allah-btn" onclick="runTasbih()">الله</button>
+            <div class="play-remote" onclick="controlQuran()">▶</div>
+        </div>
 
-<div class="toolbar-horizontal">
-    <button class="audio-control" onclick="toggleAudio()" id="audioBtn">▶</button>
-    <span class="allah-glow" onclick="countTasbih()">الله</span>
-    <div class="counter-box" id="countDisplay">0</div>
-</div>
-
-<div class="verse-container">
-    <span class="verse-text">"وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"</span>
-    <span class="verse-ref">سورة الإسراء - آية 24</span>
-</div>
-
-<div class="grid-container">
-    <div class="tribute-card">
-        <h3>الوالد رحمه الله</h3>
-        <div id="display-father" class="comment-display">رحمه الله بواسع رحمته</div>
-        <input id="input-father" class="input-area" placeholder="أكتب ترحماً...">
-        <button class="add-btn" onclick="post('father')">إضافة</button>
+        <div class="quran-container">
+            <span>تلاوة (وبالوالدين إحساناً)</span>
+            <audio id="quranAudio" controls>
+                <source src="https://server11.mp3quran.net/yasser/017.mp3" type="audio/mpeg">
+            </audio>
+        </div>
     </div>
 
-    <div class="tribute-card">
-        <h3>الوالدة رحمها الله</h3>
-        <div id="display-mother" class="comment-display">في جنات الخلد يا أمي</div>
-        <input id="input-mother" class="input-area" placeholder="أكتب ترحماً...">
-        <button class="add-btn" onclick="post('mother')">إضافة</button>
+    <div class="verse">
+        "وَقُل رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا"
+        <div style="font-size: 14px; color: #8b949e; margin-top: 5px;">سورة الإسراء - آية 24</div>
     </div>
 
-    <div class="tribute-card">
-        <h3>جدي الشيخ القادري</h3>
-        <div id="display-grandpa" class="comment-display">طيب الله ثراه</div>
-        <input id="input-grandpa" class="input-area" placeholder="أكتب تعليقاً...">
-        <button class="add-btn" onclick="post('grandpa')">إضافة</button>
+    <div class="grid">
+        <div class="card">
+            <h3>الوالد رحمه الله</h3>
+            <div class="bio-box">محمد بن سالم جولاح: خريج جامعة الزيتونة بتونس في عشرينيات القرن التاسع عشر. رمز للعلم والوفاء.</div>
+            <input type="text" placeholder="أكتب ترحماً..."><button class="add-btn">إضافة</button>
+        </div>
+        <div class="card">
+            <h3>الجد سالم بن أحمد</h3>
+            <div class="bio-box">شيخ الطريقة القادرية بجوالحية القرن الثامن عشر. منارة صوفية وتاريخية أصيلة.</div>
+            <input type="text" placeholder="أكتب تعليقاً..."><button class="add-btn">إضافة</button>
+        </div>
+        <div class="card">
+            <h3>الوالدة رحمها الله</h3>
+            <div style="text-align: center; color: var(--gold); padding: 15px 0;">في جنات الخلد يا أمي</div>
+            <input type="text" placeholder="أكتب ترحماً..."><button class="add-btn">إضافة</button>
+        </div>
+        <div class="card">
+            <h3>الأهل والأقارب</h3>
+            <div style="text-align: center; color: var(--gold); padding: 15px 0;">اللهم اغفر لهم جميعاً</div>
+            <input type="text" placeholder="أكتب ذكراً..."><button class="add-btn">إضافة</button>
+        </div>
     </div>
 
-    <div class="tribute-card">
-        <h3>الأهل والأقارب</h3>
-        <div id="display-family" class="comment-display">اللهم اغفر لهم جميعاً</div>
-        <input id="input-family" class="input-area" placeholder="أكتب ذكراً...">
-        <button class="add-btn" onclick="post('family')">إضافة</button>
-    </div>
-</div>
+    <footer>
+        <div class="memo-box">
+            <h4 style="color: var(--gold); margin-top: 0;">📝 مذكرة المهام اليومية (ASI)</h4>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" placeholder="أضف مهمة جديدة..." style="flex: 1;">
+                <button class="add-btn" style="width: 80px;">إضافة</button>
+            </div>
+        </div>
+        <p style="font-size: 13px; color: #586069; margin-top: 25px;">جوالحية الكويف تبسة الجزائر</p>
+    </footer>
 
-<div class="asi-section">
-    <div class="asi-header">📝 <span>مذكرة المهام اليومية (ASI)</span></div>
-    <div style="display: flex; gap: 10px;">
-        <input class="input-area" style="flex-grow:1; margin:0;" placeholder="أضف مهمة جديدة...">
-        <button class="add-btn" style="width: auto;">إضافة</button>
-    </div>
-</div>
-
-<div class="footer-text">
-    جوالحية الكويف تبسة الجزائر
-</div>
-
-<script>
-    let count = 0;
-    const audio = document.getElementById('quranAudio');
-    const btn = document.getElementById('audioBtn');
-
-    function countTasbih() {
-        count++;
-        document.getElementById('countDisplay').innerText = count;
-    }
-
-    function toggleAudio() {
-        if (audio.paused) {
-            audio.play();
-            btn.innerText = "⏸";
-        } else {
-            audio.pause();
-            btn.innerText = "▶";
+    <script>
+        function runTasbih() {
+            const c = document.getElementById('count');
+            c.innerText = parseInt(c.innerText) + 1;
         }
-    }
 
-    function post(type) {
-        const input = document.getElementById('input-' + type);
-        const display = document.getElementById('display-' + type);
-        if (input.value.trim() !== "") {
-            display.innerText = input.value;
-            input.value = "";
+        function controlQuran() {
+            const player = document.getElementById('quranAudio');
+            if (player.paused) { player.play(); } else { player.pause(); }
         }
-    }
-</script>
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
